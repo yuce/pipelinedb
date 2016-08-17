@@ -225,6 +225,8 @@ err_gettext(const char *str)
  * Returns TRUE in normal case.  Returns FALSE to short-circuit the error
  * report (if it's a warning or lower and not to be reported anywhere).
  */
+#include <execinfo.h>
+#include <unistd.h>
 bool
 errstart(int elevel, const char *filename, int lineno,
 		 const char *funcname, const char *domain)
@@ -244,6 +246,12 @@ errstart(int elevel, const char *filename, int lineno,
 		 * If we are inside a critical section, all errors become PANIC
 		 * errors.  See miscadmin.h.
 		 */
+		void *array[32];
+		size_t size = backtrace(array, 32);
+		fprintf(stderr, "Error (PID %d)\n", MyProcPid);
+		fprintf(stderr, "version: %s\n", PIPELINE_VERSION_STR);
+		fprintf(stderr, "backtrace:\n");
+		backtrace_symbols_fd(array, size, STDERR_FILENO);
 		if (CritSectionCount > 0)
 			elevel = PANIC;
 

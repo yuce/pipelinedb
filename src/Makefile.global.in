@@ -600,7 +600,7 @@ TAS         = @TAS@
 #
 # Link to ZMQ
 
-LIBS := -lpthread /usr/lib/libzmq.a -lstdc++ $(LIBS)
+LIBS := -lpthread -lzmq -lstdc++ $(LIBS)
 
 
 ##########################################################################

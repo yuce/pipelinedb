@@ -73,7 +73,7 @@ LIBS := $(filter-out -lpgport -lpgcommon, $(LIBS)) $(LDAP_LIBS_BE)
 # TODO(usmanm): This is ghetto. Use something like autoconf -_-
 CHECK_LIBS = $(shell pkg-config --libs check)
 ifeq (, $(CHECK_LIBS))
-CHECK_LIBS = -lcheck -lpthread
+CHECK_LIBS = -lcheck -lpthread -lsubunit
 endif
 LIBS += $(CHECK_LIBS)
 
